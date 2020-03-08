@@ -9,9 +9,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
+import com.onefootball.databinding.ActivityNewsBinding
+import com.onefootball.databinding.NewsItemBinding
 import com.onefootball.model.News
 import org.json.JSONArray
 import org.json.JSONObject
@@ -20,14 +23,13 @@ import java.nio.charset.Charset
 class NewsActivity : AppCompatActivity() {
 
     private var jsonString : String? = null
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var binding: ActivityNewsBinding
     private lateinit var newsAdapter: NewsAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_news)
-        recyclerView = findViewById(R.id.newsRecyclerView)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_news)
         newsAdapter = NewsAdapter()
-        with(recyclerView) {
+        with(binding.newsRecyclerView) {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(this@NewsActivity)
         }
@@ -71,8 +73,9 @@ class NewsAdapter: RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
     private val newsItems = ArrayList<News>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.news_item, parent, false)
-        return NewsViewHolder(view)
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = DataBindingUtil.inflate<NewsItemBinding>(inflater, R.layout.news_item, parent, false)
+        return NewsViewHolder(binding.root)
     }
 
     override fun getItemCount() = newsItems.size
@@ -80,11 +83,11 @@ class NewsAdapter: RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         val news = newsItems[position]
 
-        holder.titleView.text = news.title
-        holder.newsView.load(url = news.imageUri)
-        holder.resourceImage.load(url = news.resourceUrl)
-        holder.resourceName.text = news.resourceName
-        holder.itemView.setOnClickListener {
+        holder.binding?.newsTitle?.text = news.title
+        holder.binding?.newsView?.load(url = news.imageUri)
+        holder.binding?.resourceIcon?.load(url = news.resourceUrl)
+        holder.binding?.resourceName?.text = news.resourceName
+        holder.binding?.root?.setOnClickListener {
             it.context.startActivity(
                 Intent(Intent.ACTION_VIEW, Uri.parse(news.newsLink))
             )
@@ -98,11 +101,7 @@ class NewsAdapter: RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
     }
 
     class NewsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-
-        var titleView: TextView = itemView.findViewById(R.id.news_title)
-        var newsView: ImageView = itemView.findViewById(R.id.news_view)
-        var resourceImage: ImageView = itemView.findViewById(R.id.resource_icon)
-        var resourceName: TextView = itemView.findViewById(R.id.resource_name)
+        val binding = DataBindingUtil.getBinding<NewsItemBinding>(itemView)
     }
 }
 
