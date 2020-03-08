@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">OnefootballCodingChallenge</string>
+
+    <!-- content descriptions -->
+    <string name="cd_news_image">News Image</string>
+    <string name="cd_resource_image">Resource Icon</string>
 </resources>

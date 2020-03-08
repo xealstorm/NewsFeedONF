@@ -4,32 +4,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="8dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginRight="8dp"
-    app:cardElevation="4dp">
+    android:layout_marginLeft="@dimen/dimen_s"
+    android:layout_marginTop="@dimen/dimen_s"
+    android:layout_marginRight="@dimen/dimen_s"
+    app:cardElevation="@dimen/dimen_xs">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="@dimen/dimen_s"
         android:orientation="vertical"
-        android:paddingBottom="8dp">
+        android:paddingBottom="@dimen/dimen_s">
 
         <ImageView
             android:id="@+id/news_view"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:contentDescription="News Image"
+            android:layout_height="@dimen/dimen_news_item_image_width"
+            android:contentDescription="@string/cd_news_image"
             android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/news_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:layout_margin="@dimen/dimen_s"
+            android:textAppearance="@style/NewsTitleText" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -38,19 +37,19 @@
 
             <ImageView
                 android:id="@+id/resource_icon"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:contentDescription="Resource Icon" />
+                android:layout_width="@dimen/dimen_l"
+                android:layout_height="@dimen/dimen_l"
+                android:layout_marginStart="@dimen/dimen_s"
+                android:layout_marginTop="@dimen/dimen_s"
+                android:contentDescription="@string/cd_resource_image" />
 
             <TextView
                 android:id="@+id/resource_name"
                 android:layout_width="wrap_content"
                 android:layout_gravity="center"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginStart="8dp" />
+                android:layout_marginTop="@dimen/dimen_xs"
+                android:layout_marginStart="@dimen/dimen_s" />
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
