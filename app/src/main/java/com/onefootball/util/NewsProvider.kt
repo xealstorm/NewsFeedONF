@@ -21,19 +21,13 @@ object NewsProvider {
         val newsItems = mutableListOf<News>()
         val newsArray = mainObject.getJSONArray(JSON_NEWS)
         newsArray.forEach { newsObject ->
-            val title = newsObject.getString(JSON_TITLE)
-            val imageUrl = newsObject.getString(JSON_IMAGE_URL)
-            val resourceName = newsObject.getString(JSON_RESOURCE_NAME)
-            val resourceUrl = newsObject.getString(JSON_RESOURCE_URL)
-            val newsLink = newsObject.getString(JSON_NEWS_LINK)
-
             newsItems.add(
                 News(
-                    title = title,
-                    imageUri = imageUrl,
-                    resourceName = resourceName,
-                    resourceUrl = resourceUrl,
-                    newsLink = newsLink
+                    title = newsObject.getStringOrNull(JSON_TITLE),
+                    imageUri = newsObject.getStringOrNull(JSON_IMAGE_URL),
+                    resourceName = newsObject.getStringOrNull(JSON_RESOURCE_NAME),
+                    resourceUrl = newsObject.getStringOrNull(JSON_RESOURCE_URL),
+                    newsLink = newsObject.getStringOrNull(JSON_NEWS_LINK)
                 )
             )
         }
