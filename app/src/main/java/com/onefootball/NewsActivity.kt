@@ -17,25 +17,25 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.nio.charset.Charset
 
-class MyNewsActivity : AppCompatActivity() {
+class NewsActivity : AppCompatActivity() {
 
-    var jsonString : String? = null
-    lateinit var recyclerView: RecyclerView
-    lateinit var myAdapter: NewsAdapter
+    private var jsonString : String? = null
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var newsAdapter: NewsAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_news)
         recyclerView = findViewById(R.id.newsRecyclerView)
-        myAdapter = NewsAdapter()
+        newsAdapter = NewsAdapter()
         with(recyclerView) {
-            adapter = myAdapter
-            layoutManager = LinearLayoutManager(this@MyNewsActivity)
+            adapter = newsAdapter
+            layoutManager = LinearLayoutManager(this@NewsActivity)
         }
     }
 
     override fun onResume() {
         super.onResume()
-        var inputStream = assets.open("news.json")
+        val inputStream = assets.open("news.json")
         val size = inputStream.available()
         val buffer = ByteArray(size)
         inputStream.read(buffer)
@@ -44,7 +44,7 @@ class MyNewsActivity : AppCompatActivity() {
 
         val items = parseJsonString(jsonString!!)
 
-        myAdapter.setNewsItems(items)
+        newsAdapter.setNewsItems(items)
     }
 
     private fun parseJsonString(jsonString: String): List<News> {
@@ -54,12 +54,12 @@ class MyNewsActivity : AppCompatActivity() {
         newsArray.forEach {
             newsObject ->
             val title = newsObject.getString("title")
-            val imageURL = newsObject.getString("image_url")
+            val imageUrl = newsObject.getString("image_url")
             val resourceName = newsObject.getString("resource_name")
-            val resourceURL = newsObject.getString("resource_url")
+            val resourceUrl = newsObject.getString("resource_url")
             val newsLink = newsObject.getString("news_link")
 
-            newsItems.add(News(title = title, imageURL = imageURL, resourceName = resourceName, resourceURL = resourceURL, newsLink = newsLink))
+            newsItems.add(News(title = title, imageUri = imageUrl, resourceName = resourceName, resourceUrl = resourceUrl, newsLink = newsLink))
         }
         return newsItems
     }
@@ -81,8 +81,8 @@ class NewsAdapter: RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
         val news = newsItems[position]
 
         holder.titleView.text = news.title
-        holder.newsView.load(url = news.imageURL)
-        holder.resourceImage.load(url = news.resourceURL)
+        holder.newsView.load(url = news.imageUri)
+        holder.resourceImage.load(url = news.resourceUrl)
         holder.resourceName.text = news.resourceName
         holder.itemView.setOnClickListener {
             it.context.startActivity(
