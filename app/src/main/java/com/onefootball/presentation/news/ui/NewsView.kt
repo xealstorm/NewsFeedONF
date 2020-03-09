@@ -5,4 +5,6 @@ import com.onefootball.presentation.news.model.NewsItem
 
 interface NewsView : BaseView {
     fun updateNewsWithList(newsList: List<NewsItem>)
+
+    fun hasItems(): Boolean
 }

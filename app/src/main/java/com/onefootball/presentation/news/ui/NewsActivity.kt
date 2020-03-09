@@ -45,6 +45,8 @@ class NewsActivity : BaseActivity(), NewsView {
     override fun updateNewsWithList(newsList: List<NewsItem>) {
         newsAdapter.setNewsItems(newsList)
     }
+
+    override fun hasItems() = newsAdapter.itemCount > 0
 }
 
 

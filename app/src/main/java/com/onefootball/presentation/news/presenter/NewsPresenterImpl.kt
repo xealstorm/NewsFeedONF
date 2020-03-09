@@ -13,17 +13,19 @@ class NewsPresenterImpl(private val assetManager: AssetManager) : NewsPresenter 
     }
 
     override fun provideNews() {
-        val newsItems = NewsProvider.provideNewsFromFile(assetManager)
-            .filter { it.isValid() }
-            .map {
-                NewsItem(
-                    it.title!!,
-                    it.imageUri!!,
-                    it.resourceName!!,
-                    it.resourceUrl!!,
-                    it.newsLink!!
-                )
-            }
-        view?.updateNewsWithList(newsItems)
+        if (view?.hasItems() == false) {
+            val newsItems = NewsProvider.provideNewsFromFile(assetManager)
+                .filter { it.isValid() }
+                .map {
+                    NewsItem(
+                        it.title!!,
+                        it.imageUri!!,
+                        it.resourceName!!,
+                        it.resourceUrl!!,
+                        it.newsLink!!
+                    )
+                }
+            view?.updateNewsWithList(newsItems)
+        }
     }
 }
