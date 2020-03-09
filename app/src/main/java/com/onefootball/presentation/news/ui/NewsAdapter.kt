@@ -1,4 +1,4 @@
-package com.onefootball
+package com.onefootball.presentation.news.ui
 
 import android.content.Intent
 import android.net.Uri
@@ -8,17 +8,21 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
+import com.onefootball.R
 import com.onefootball.databinding.NewsItemBinding
-import com.onefootball.model.News
+import com.onefootball.presentation.news.model.NewsItem
 
 class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
 
-    private val newsItems = ArrayList<News>()
+    private val newsItems = ArrayList<NewsItem>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding =
-            DataBindingUtil.inflate<NewsItemBinding>(inflater, R.layout.news_item, parent, false)
+            DataBindingUtil.inflate<NewsItemBinding>(
+                inflater,
+                R.layout.news_item, parent, false
+            )
         return NewsViewHolder(binding.root)
     }
 
@@ -28,16 +32,16 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
         holder.onBind(newsItems[position])
     }
 
-    fun setNewsItems(newListOfNewsItems: List<News>) {
+    fun setNewsItems(newListOfNewsItems: List<NewsItem>) {
         newsItems.clear()
         newsItems.addAll(newListOfNewsItems)
         notifyDataSetChanged()
     }
 
     class NewsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val binding = DataBindingUtil.getBinding<NewsItemBinding>(itemView)
+        private val binding = DataBindingUtil.getBinding<NewsItemBinding>(itemView)
 
-        fun onBind(item: News) {
+        fun onBind(item: NewsItem) {
             if (binding != null) {
                 with(binding) {
                     newsTitle.text = item.title

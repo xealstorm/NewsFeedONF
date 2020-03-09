@@ -6,4 +6,10 @@ data class News(
     val resourceName: String?,
     val resourceUrl: String?,
     val newsLink: String?
-)
+) {
+    fun isValid() = title.isNullOrEmpty().not() &&
+            imageUri.isNullOrEmpty().not() &&
+            resourceName.isNullOrEmpty().not() &&
+            resourceUrl.isNullOrEmpty().not() &&
+            newsLink.isNullOrEmpty().not()
+}

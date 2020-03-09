@@ -6,5 +6,5 @@
         android:id="@+id/newsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".NewsActivity" />
+        tools:context=".presentation.news.ui.NewsActivity" />
 </layout>
