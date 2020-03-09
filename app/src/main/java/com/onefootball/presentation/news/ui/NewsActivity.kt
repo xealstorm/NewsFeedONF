@@ -1,19 +1,24 @@
 package com.onefootball.presentation.news.ui
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.onefootball.R
 import com.onefootball.databinding.ActivityNewsBinding
+import com.onefootball.di.activity.ActivityComponent
+import com.onefootball.di.news.NewsModule
+import com.onefootball.presentation.base.ui.BaseActivity
 import com.onefootball.presentation.news.model.NewsItem
 import com.onefootball.presentation.news.presenter.NewsPresenter
+import javax.inject.Inject
 
-class NewsActivity : AppCompatActivity(), NewsView {
+class NewsActivity : BaseActivity(), NewsView {
 
     private lateinit var binding: ActivityNewsBinding
-    private lateinit var newsAdapter: NewsAdapter
-    private lateinit var newsPresenter: NewsPresenter
+    @Inject
+    internal lateinit var newsAdapter: NewsAdapter
+    @Inject
+    internal lateinit var newsPresenter: NewsPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,8 +26,7 @@ class NewsActivity : AppCompatActivity(), NewsView {
             this,
             R.layout.activity_news
         )
-        newsPresenter = NewsPresenter().apply { setView(this@NewsActivity) }
-        newsAdapter = NewsAdapter()
+        newsPresenter.setView(this@NewsActivity)
         with(binding.newsRecyclerView) {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(this@NewsActivity)
@@ -32,6 +36,10 @@ class NewsActivity : AppCompatActivity(), NewsView {
     override fun onResume() {
         super.onResume()
         newsPresenter.provideNews()
+    }
+
+    override fun doInjections(activityComponent: ActivityComponent?) {
+        activityComponent?.plus(NewsModule())?.injectTo(this)
     }
 
     override fun updateNewsWithList(newsList: List<NewsItem>) {

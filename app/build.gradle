@@ -44,6 +44,11 @@ dependencies {
     implementation dep.ktxcore
     implementation dep.constraintLayout
 
+    implementation dep.dagger
+    implementation dep.daggerAndroid
+    kapt dep.daggerCompiler
+    kapt dep.daggerProcessor
+
     testImplementation dep.junit
     androidTestImplementation dep.testRunner
     androidTestImplementation dep.testEspresso

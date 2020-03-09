@@ -1,13 +1,13 @@
 package com.onefootball.util
 
-import android.content.Context
+import android.content.res.AssetManager
 import com.onefootball.model.News
 import org.json.JSONObject
 import java.nio.charset.Charset
 
 object NewsProvider {
-    fun provideNewsFromFile(context: Context, fileName: String = DEFAULT_FILE_NAME): List<News> {
-        val inputStream = context.assets.open(fileName)
+    fun provideNewsFromFile(assetManager: AssetManager, fileName: String = DEFAULT_FILE_NAME): List<News> {
+        val inputStream = assetManager.open(fileName)
         val size = inputStream.available()
         val buffer = ByteArray(size)
         inputStream.read(buffer)
