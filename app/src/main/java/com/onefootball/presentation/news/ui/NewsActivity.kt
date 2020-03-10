@@ -1,6 +1,8 @@
 package com.onefootball.presentation.news.ui
 
+import android.content.res.Configuration
 import android.os.Bundle
+import android.os.PersistableBundle
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.onefootball.R
@@ -33,6 +35,10 @@ class NewsActivity : BaseActivity(), NewsView {
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+        super.onCreate(savedInstanceState, persistentState)
+    }
+
     override fun onResume() {
         super.onResume()
         newsPresenter.provideNews()
@@ -46,7 +52,22 @@ class NewsActivity : BaseActivity(), NewsView {
         newsAdapter.setNewsItems(newsList)
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putSerializable(ITEMS_BUNDLE_KEY, newsAdapter.getItems())
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        val items = savedInstanceState.getSerializable(ITEMS_BUNDLE_KEY) as List<NewsItem>
+        newsAdapter.setNewsItems(items)
+    }
+
     override fun hasItems() = newsAdapter.itemCount > 0
+
+    companion object{
+        private const val ITEMS_BUNDLE_KEY = "news_items"
+    }
 }
 
 

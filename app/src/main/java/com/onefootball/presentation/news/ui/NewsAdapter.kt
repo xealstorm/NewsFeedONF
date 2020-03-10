@@ -26,6 +26,8 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
         return NewsViewHolder(binding.root)
     }
 
+    fun getItems() = newsItems
+
     override fun getItemCount() = newsItems.size
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
