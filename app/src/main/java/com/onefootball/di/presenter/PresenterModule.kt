@@ -1,9 +1,9 @@
 package com.onefootball.di.presenter
 
-import android.content.res.AssetManager
 import com.onefootball.di.activity.ActivityScope
 import com.onefootball.presentation.news.presenter.NewsPresenter
 import com.onefootball.presentation.news.presenter.NewsPresenterImpl
+import com.onefootball.provider.NewsProvider
 import dagger.Module
 import dagger.Provides
 
@@ -11,7 +11,7 @@ import dagger.Provides
 class PresenterModule {
     @Provides
     @ActivityScope
-    fun provideNewsPresenter(assetManager: AssetManager): NewsPresenter {
-        return NewsPresenterImpl(assetManager)
+    fun provideNewsPresenter(newsProvider: NewsProvider): NewsPresenter {
+        return NewsPresenterImpl(newsProvider)
     }
 }

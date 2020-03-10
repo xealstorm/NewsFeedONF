@@ -8,7 +8,7 @@ import dagger.Provides
 class NewsModule {
     @NewsScope
     @Provides
-    fun requestNewsAdapter(): NewsAdapter {
+    fun provideNewsAdapter(): NewsAdapter {
         return NewsAdapter()
     }
 }
