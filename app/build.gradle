@@ -49,6 +49,9 @@ dependencies {
     kapt dep.daggerCompiler
     kapt dep.daggerProcessor
 
+    implementation dep.rxJava
+    implementation dep.rxAndroid
+
     testImplementation dep.junit
     androidTestImplementation dep.testRunner
     androidTestImplementation dep.testEspresso

@@ -5,6 +5,7 @@ import android.util.Log
 import com.onefootball.model.News
 import com.onefootball.util.forEach
 import com.onefootball.util.getStringOrNull
+import io.reactivex.Observable
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
@@ -14,19 +15,23 @@ class NewsProviderImpl(
     private val assetManager: AssetManager,
     private val fileName: String = DEFAULT_FILE_NAME
 ) : NewsProvider {
-    override fun provideNews() = try {
-        val inputStream = assetManager.open(fileName)
-        val size = inputStream.available()
-        val buffer = ByteArray(size)
-        inputStream.read(buffer)
-        inputStream.close()
-        val jsonString = buffer.toString(Charset.defaultCharset())
-        parseJsonString(jsonString)
-    } catch (e: IOException) {
-        Log.e(NewsProvider::class.java.toString(), e.message ?: "Unable to read the file")
-        listOf<News>()
+    override fun provideNews(): Observable<List<News>> = Observable.fromCallable {
+        try {
+            val inputStream = assetManager.open(fileName)
+            val size = inputStream.available()
+            val buffer = ByteArray(size)
+            inputStream.read(buffer)
+            inputStream.close()
+            val jsonString = buffer.toString(Charset.defaultCharset())
+            parseJsonString(jsonString)
+        } catch (e: IOException) {
+            Log.e(
+                NewsProvider::class.java.toString(),
+                e.message ?: "Unable to read the file"
+            )
+            listOf<News>()
+        }
     }
-
 
     private fun parseJsonString(jsonString: String) =
         try {
