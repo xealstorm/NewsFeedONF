@@ -1,6 +1,7 @@
 package com.onefootball.presentation.news.presenter
 
 import android.util.Log
+import androidx.annotation.VisibleForTesting
 import com.onefootball.presentation.news.model.NewsItem
 import com.onefootball.presentation.news.ui.NewsView
 import com.onefootball.provider.NewsProvider
@@ -32,7 +33,7 @@ class NewsPresenterImpl(
                                 news.newsLink!!
                             )
                         }
-                    view?.updateNewsWithList(newsItems)
+                    updateList(newsItems)
                 }, {
                     Log.e(
                         NewsPresenterImpl::class.java.toString(),
@@ -40,5 +41,12 @@ class NewsPresenterImpl(
                     )
                 })
         }
+    }
+
+    @VisibleForTesting
+    internal fun getView(): NewsView? = view
+
+    internal fun updateList(newsItems: List<NewsItem>) {
+        view?.updateNewsWithList(newsItems)
     }
 }

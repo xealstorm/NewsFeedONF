@@ -39,5 +39,6 @@ ext.dep = [
         // tests
         junit              : 'junit:junit:4.12',
         testRunner         : 'androidx.test:runner:1.2.0',
-        testEspresso       : 'androidx.test.espresso:espresso-core:3.2.0'
+        testEspresso       : 'androidx.test.espresso:espresso-core:3.2.0',
+        mockito             : 'org.mockito:mockito-inline:2.13.0'
 ]

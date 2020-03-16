@@ -55,6 +55,7 @@ dependencies {
     testImplementation dep.junit
     androidTestImplementation dep.testRunner
     androidTestImplementation dep.testEspresso
+    testImplementation dep.mockito
 
     implementation dep.cardview
     implementation dep.recyclerview
