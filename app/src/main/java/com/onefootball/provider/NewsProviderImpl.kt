@@ -16,24 +16,30 @@ class NewsProviderImpl(
     private val fileName: String = DEFAULT_FILE_NAME
 ) : NewsProvider {
     override fun provideNews(): Observable<List<News>> = Observable.fromCallable {
-        try {
-            val inputStream = assetManager.open(fileName)
+        val jsonString = getJsonStringFromFile(fileName)
+        parseJsonString(jsonString)
+    }
+
+    internal fun provideInputStream(fileName: String) = assetManager.open(fileName)
+
+    internal fun getJsonStringFromFile(fileName: String): String {
+        return try {
+            val inputStream = provideInputStream(fileName)
             val size = inputStream.available()
             val buffer = ByteArray(size)
             inputStream.read(buffer)
             inputStream.close()
-            val jsonString = buffer.toString(Charset.defaultCharset())
-            parseJsonString(jsonString)
+            buffer.toString(Charset.defaultCharset())
         } catch (e: IOException) {
             Log.e(
                 NewsProvider::class.java.toString(),
                 e.message ?: "Unable to read the file"
             )
-            listOf<News>()
+            ""
         }
     }
 
-    private fun parseJsonString(jsonString: String) =
+    internal fun parseJsonString(jsonString: String) =
         try {
             val mainObject = JSONObject(jsonString)
             val newsItems = mutableListOf<News>()

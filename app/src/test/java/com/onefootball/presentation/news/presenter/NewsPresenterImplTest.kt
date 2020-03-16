@@ -61,6 +61,16 @@ class RatesPresenterImplTest {
     }
 
     @Test
+    fun `presenter filters items with null fields`() {
+        Mockito.doReturn(Observable.fromCallable { NEWS_MISSING_FIELDS_MOCK }).`when`(newsProvider)
+            .provideNews()
+        val spyPresenter = Mockito.spy(presenter)
+        spyPresenter!!.provideNews()
+        testScheduler.triggerActions()
+        Mockito.verify(spyPresenter)?.updateList(NEWS_ITEMS_VALID_MOCK)
+    }
+
+    @Test
     fun `update items in UI if they are returned`() {
         val spyPresenter = Mockito.spy(presenter)
         spyPresenter!!.updateList(NEWS_ITEMS_MOCK)
@@ -89,6 +99,60 @@ class RatesPresenterImplTest {
                 "SampleResource3",
                 "https://resource3.jpg",
                 "https://newslink3.com"
+            )
+        )
+
+        val NEWS_MISSING_FIELDS_MOCK: List<News> = listOf(
+            News(
+                null,
+                "https://sample1.jpg",
+                "SampleResource1",
+                "https://resource1.jpg",
+                "https://newslink1.com"
+            ),
+            News(
+                "Sample title2",
+                null,
+                "SampleResource2",
+                "https://resource2.jpg",
+                "https://newslink2.com"
+            ),
+            News(
+                "Sample title3",
+                "https://sample3.jpg",
+                null,
+                "https://resource3.jpg",
+                "https://newslink3.com"
+            ), News(
+                "Sample title4",
+                "https://sample4.jpg",
+                "SampleResource4",
+                null,
+                "https://newslink4.com"
+            ),
+            News(
+                "Sample title5",
+                "https://sample5.jpg",
+                "SampleResource5",
+                "https://resource5.jpg",
+                null
+            ),
+            News(
+                "Sample title6",
+                "https://sample6.jpg",
+                "SampleResource6",
+                "https://resource6.jpg",
+                "https://newslink6.com"
+            )
+        )
+
+        val NEWS_ITEMS_VALID_MOCK: List<NewsItem> = listOf(
+            NewsItem(
+                "Sample title6",
+                "https://sample6.jpg",
+                "SampleResource6",
+                "https://resource6.jpg",
+                "https://newslink6.com"
             )
         )
     }
